@@ -239,7 +239,7 @@ curl --location --request GET 'http://对外服务ip:8889/api/mappic/dkms/sign/g
 
 <img src="images/groups.png" width="800" height="200">
 
-**钱包交易demo**
+**以太坊交易demo**
 
 <img src="images/transaction.png" width="800" height="200">
 
