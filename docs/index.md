@@ -217,33 +217,6 @@ curl --location --request GET 'http://对外服务ip:8889/api/mappic/dkms/sign/g
 }
 ```
 
-
-### 网页体验(仅用于体验非商业化版本)
-**门户网页**
-
-<img src="images/home.png" width="800" height="200">
-
-**登录页面**
-
-<img src="images/login.png" width="800" height="200">
-
-**管理主页**
-
-<img src="images/admin.png" width="800" height="200">
-
-**策略管理**
-
-<img src="images/policy.png" width="800" height="200">
-
-**群组管理**
-
-<img src="images/groups.png" width="800" height="200">
-
-**以太坊交易demo**
-
-<img src="images/transaction.png" width="800" height="200">
-
-
 #### 更多服务体验链接
   进群联系管理员 **@霖珂**
 # 联系我们
