@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="计算巢是阿里云开放给企业应用服务商的服务管理平台。服务商能够在计算巢上发布私有化部署服务，为其客户提供云上软件一键部署的能力；同时也支持全托管模式的服务，赋能服务商托管其客户资源。">
+  <title>部署分布式密钥管理服务 - Aliyun 计算巢 x distributed-key-management</title>
+
+  <link rel="shortcut icon" href="img/favicon.ico">
+
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+  <link rel="stylesheet" href="css/theme.css">
+  
+
+  
+
+  
+  
+
+  
+    <script src="search/main.js"></script>
+  
+
+  
+
+  <script src="js/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="nav">
+      <div class="nav-inner">
+        <div class="logo">
+          <img src="./img/logo-2x.png">
+        </div>
+        <div class="nav-list">
+          <ul>
+          
+              <li><a href="#_1">部署分布式密钥管理服务</a></li>
+              
+                  <li><a href="#_2">概述</a></li>
+                  
+              
+                  <li><a href="#_3">实例规格</a></li>
+                  
+              
+                  <li><a href="#_4">部署流程</a></li>
+                  
+                      <li class="li-h3"><a href="#0">0.准备工作</a></li>
+                  
+                      <li class="li-h3"><a href="#1">1.部署入口</a></li>
+                  
+                      <li class="li-h3"><a href="#2">2.申请试用</a></li>
+                  
+                      <li class="li-h3"><a href="#3">3.创建服务</a></li>
+                  
+              
+                  <li><a href="#_5">管理资源</a></li>
+                  
+              
+                  <li><a href="#_6">快速体验</a></li>
+                  
+                      <li class="li-h3"><a href="#_7">确认服务部署结果</a></li>
+                  
+                      <li class="li-h3"><a href="#ip">查看对外服务ip</a></li>
+                  
+                      <li class="li-h3"><a href="#_8">接口介绍</a></li>
+                  
+              
+          
+              <li><a href="#_10">联系我们</a></li>
+              
+          
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="content theme-github">
+      
+      <div class="content-inner">        
+        
+        <h1 id="_1">部署分布式密钥管理服务</h1>
+<h2 id="_2">概述</h2>
+<p>蚂蚁链分布式密钥管理服务是蚂蚁链自研MPC密管算法并融合TEE集群化的去中心化密管系统方案，提供安全、高效、易用的分布式密管特性，满足密钥全链路密态分片计算、托管和用户可自定义的安全策略引擎，您无需自行购置云主机，即可在计算巢上快速部署并低代码体验MPC-TEE分布式密管服务，也可接入标准的分布式密管SaaS服务。</p>
+<p>基础能力包括:</p>
+<ul>
+<li>基于MPC-TEE模式实现密钥全流程私钥不可见的密钥生成、密钥导入、密钥恢复、分布式签名等特性.  </li>
+<li>MPC密钥分片融合TEE实现全流程计算、托管、密管，基于安全策略引擎可配置、可定义密管策略配置.  </li>
+<li>MPC N/M分片多门限管理及分片Group备份部署策略，提供3/2、7/5、9/5等主流门限方案 </li>
+<li>云上标品化部署，提供SDK/RESTful等多种客户端接入模式，分片阿里云多Region跨域部署、跨域托管.    </li>
+<li>2/2门限配置为例，2台TEE ecs.g7t.xlarge实例提供3000以上key的托管和并行签名计算，满足更低成本. </li>
+<li>提供云上SaaS和客户私域部署，计算巢标品分钟级服务部署和快速接入，业务只需关注服务本身.</li>
+</ul>
+<p>目前分布式密钥管理服务提供免费试用版本，欢迎大家申请试用，有任何问题欢迎进群交流。</p>
+<h2 id="_3">实例规格</h2>
+<p><strong>ACK集群</strong></p>
+<p>规格：</p>
+<ul>
+<li>4C、16G内存每台</li>
+<li>EPC：16G，明文：16G</li>
+<li>2台ecs</li>
+<li>操作系统 Alibaba Cloud Linux 2.1903 LTS 64位 (Hunting Beagle)</li>
+<li>实例规格 <a href="https://www.alibabacloud.com/help/doc-detail/25378.htm#r7t">ecs.g7t.xlarge</a></li>
+</ul>
+<p>更多商业化规格配置参考欢迎进钉钉群（69285014993）咨询！！！</p>
+<p><strong>mysql</strong></p>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>存储容量</th>
+<th>cpu规格</th>
+<th>最大连接数</th>
+<th>时区</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8.0</td>
+<td>100g</td>
+<td>1c 2g</td>
+<td>2000</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_4">部署流程</h2>
+<h3 id="0">0.准备工作</h3>
+<p>在申请试用之前，您需要准备一个阿里云账号，对ECS、VPC、ROS、ACK、RDS等资源进行访问和创建操作。</p>
+<ul>
+<li>若您使用主账号，可以直接创建服务实例</li>
+<li>若您使用RAM用户创建服务实例，且是第一次使用阿里云计算巢，需要在创建服务实例前，对使用的RAM用户的账号添加相应资源的权限。</li>
+</ul>
+<h3 id="1">1.部署入口</h3>
+<p>&nbsp;&nbsp;您可以再阿里云的计算巢中通过 <strong>分布式密钥管理</strong> 关键字进行搜索，也可以单击下述链接快速体验</p>
+<p>&nbsp;&nbsp;单击<a href="https://computenest.console.aliyun.com/service/instance/create/cn-hangzhou?spm=5176.24779694.0.0.59b94d22FDjnMU&amp;type=user&amp;ServiceName=%E5%88%86%E5%B8%83%E5%BC%8F%E5%AF%86%E9%92%A5%E7%AE%A1%E7%90%86%E6%9C%8D%E5%8A%A1&amp;isTrial=true">部署链接</a></p>
+<h3 id="2">2.申请试用</h3>
+<p>在使用之前，请按照提示信息完成申请，在审核通过之后就可以创建服务</p>
+<h3 id="3">3.创建服务</h3>
+<ul>
+<li>进入开通配置界面按照我们推荐的[机器规格] 依次填写完服务实例名称，选择地域，付费类型，数据库的账号密码，集群的配置以及网络的配置并点击<strong>确认订单</strong></li>
+</ul>
+<p><img src="images/create.png" width="800" height="200"></p>
+<ul>
+<li>确认订单页会显示缺少的权限、基础配置和账单，建议申请完缺失的权限后再点击立即创建则进入创建环节</li>
+</ul>
+<p><img src="images/permissions.png" width="800" height="200"></p>
+<ul>
+<li>点击查看已创建的实例</li>
+</ul>
+<p><img src="images/show_instance.png" width="800" height="200"></p>
+<h2 id="_5">管理资源</h2>
+<ul>
+<li>点击服务实例，进入后可以看到服务详情，等待创建完成，整个流程约20分钟</li>
+</ul>
+<p><img src="images/watch_instance.png" width="800" height="200"></p>
+<ul>
+<li>点击查看资源mysql和ecs等实例，并进行维护</li>
+</ul>
+<p><img src="images/resourceList.png" width="800" height="200"></p>
+<h2 id="_6">快速体验</h2>
+<h3 id="_7">确认服务部署结果</h3>
+<p>进入计算巢服务后，选择【我的服务】-&gt; 【服务实例】查看所有目前保有的实例
+<img src="images/watch_instance.png" width="800" height="200"></p>
+<h3 id="ip">查看对外服务ip</h3>
+<p>单击服务实例名称或ID，进入服务实服务实例详情页，查看访问IP地址。（后续接口请求中存在的${对外服务ip}，均替换为该IP）</p>
+<p><img src="images/service_ip.png" width="800" height="200"></p>
+<h3 id="_8">接口介绍</h3>
+<p><strong>创建节点</strong></p>
+<pre><code class="language-java">curl --location --request POST '对外服务ip:8889/api/mappic/pod/createPod' \
+--header 'Content-Type: application/json' \
+--data '{
+        &quot;nodeTag&quot;: &quot;mappic234&quot;
+        }'
+
+// 返回结果
+{
+    &quot;errorCode&quot;: &quot;200&quot;,
+    &quot;errorMessage&quot;: &quot;success&quot;,
+    &quot;data&quot;: &quot;mappic234&quot;,
+    &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>生成密钥</strong></p>
+<pre><code class="language-java">curl --location --request POST '对外服务ip:8889/api/mappic/dkms/key/gen' \
+--header 'Content-Type: application/json' \
+--data '{
+        &quot;keyParams&quot;: {
+            &quot;type&quot;: &quot;ECDSA_K1&quot;,
+            &quot;length&quot;: 512
+        },
+        &quot;serviceParticipants&quot;: [
+            &quot;创建节点时的tag&quot;,
+            &quot;创建节点时的tag&quot;
+        ],
+        &quot;threshold&quot;: 2,
+        &quot;totalShares&quot;: 2
+}'
+
+// 返回结果
+{
+    &quot;errorCode&quot;: &quot;200&quot;,
+    &quot;errorMessage&quot;: &quot;success&quot;,
+    &quot;data&quot;: {
+        &quot;keyId&quot;: &quot;9390321f-0d4d-4f3f-904b-6cb37accb3e6&quot;
+    },
+    &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>导入密钥</strong></p>
+<pre><code class="language-java">curl --location --request POST '对外服务ip:8889/api/mappic/dkms/key/import' \
+--header 'Content-Type: application/json' \
+--data '{
+        &quot;privateKey&quot;: &quot;pem格式的私钥&quot;,
+        &quot;password&quot;:&quot;生成私钥时的密码&quot;,
+        &quot;keyParams&quot;: {
+            &quot;type&quot;: &quot;ECDSA_K1&quot;,
+            &quot;length&quot;: 512
+        },
+        &quot;serviceParticipants&quot;: [
+            &quot;创建节点时的tag&quot;,
+            &quot;创建节点时的tag&quot;
+        ],
+        &quot;threshold&quot;: 2,
+        &quot;totalShares&quot;: 2
+}'
+
+// 返回结果
+{
+    &quot;errorCode&quot;: &quot;200&quot;,
+    &quot;errorMessage&quot;: &quot;success&quot;,
+    &quot;data&quot;: {
+        &quot;instanceId&quot;:&quot;xxxxxx&quot;
+    },
+    &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>查看密钥状态</strong></p>
+<pre><code class="language-java">curl --location --request GET 'http://对外服务ip:8889/api/mappic/dkms/key/get?keyId=${keyId}'
+
+// 返回结果
+{
+    &quot;errorCode&quot;: &quot;200&quot;,
+    &quot;errorMessage&quot;: &quot;success&quot;,
+    &quot;data&quot;: {
+        &quot;status&quot;: &quot;FINISHED&quot;,
+        &quot;publicKey&quot;: &quot;pem格式的公钥&quot;,
+        &quot;errorMessage&quot;: null
+    },
+    &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>生成签名</strong></p>
+<pre><code class="language-java">curl --location --request POST 'http://对外服务ip:8889/api/mappic/dkms/sign/req' \
+--header 'Content-Type: application/json' \
+--data '{
+        &quot;digestHex&quot;: &quot;xxxxxxxxxxxxxx&quot;,
+        &quot;keyId&quot;: &quot;密钥生成的keyId&quot;
+}'
+
+// 返回结果
+{
+    &quot;errorCode&quot;: &quot;200&quot;,
+    &quot;errorMessage&quot;: &quot;success&quot;,
+    &quot;data&quot;: {
+        &quot;instanceId&quot;: &quot;b341fec1-3ec1-4fb0-9f11-5226091f0f4a&quot;
+    },
+    &quot;success&quot;: true
+}
+</code></pre>
+<p><strong>查看签名</strong></p>
+<pre><code class="language-java">curl --location --request GET 'http://对外服务ip:8889/api/mappic/dkms/sign/get?instanceId=${instanceId}'
+
+// 返回结果
+{
+    &quot;errorCode&quot;: &quot;200&quot;,
+    &quot;errorMessage&quot;: &quot;success&quot;,
+    &quot;data&quot;: {
+        &quot;sign&quot;: &quot;xxxxxxxx&quot;,
+        &quot;status&quot;: &quot;FINISHED&quot;,
+        &quot;errorMessage&quot;: null
+    },
+    &quot;success&quot;: true
+}
+</code></pre>
+<h4 id="_9">更多服务体验链接</h4>
+<p>进群联系管理员 <strong>@霖珂</strong></p>
+<h1 id="_10">联系我们</h1>
+<ul>
+<li>
+<p><strong>联系邮箱</strong>：antchainmappic@service.alipay.com</p>
+</li>
+<li>
+<p><strong>快速问题排查</strong>：可通过技术交流群和我们进行联系，详见下面二维码：</p>
+</li>
+</ul>
+<p><strong>分布式密钥管理钉钉交流群</strong>：</p>
+<p><img src="images/dingding.png" width="150" height="150"></p>
+<p><strong>分布式密钥管理微信交流群</strong>：</p>
+<p><img src="images/wx.png" width="150" height="150"></p>
+        
+      </div>
+
+      <div class="copyrights">© 2009-2022 Aliyun.com 版权所有</div>
+    </div>
+  </div>
+  
+  <!--
+  MkDocs version      : 1.6.1
+  Docs Build Date UTC : 2024-12-05 12:56:38.446328+00:00
+  -->
+</body>
+</html>
